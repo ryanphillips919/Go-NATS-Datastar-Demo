@@ -4,6 +4,8 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+
+	"github.com/go-chi/chi/v5"
 )
 
 type Expense struct {
@@ -51,7 +53,8 @@ func expenseHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/expense", expenseHandler)
+	r := chi.NewRouter()
+	r.HandleFunc("/expense", expenseHandler)
 	log.Println("Listening on :8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":8080", r))
 }
